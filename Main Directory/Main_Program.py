@@ -23,7 +23,7 @@ Red = 55
 Green = 100
 Blue = 200
 # State of the Player
-Outdoor = True
+Outdoor = True;
 Fame = 0
 context = "nothing"
 context_index = 0
@@ -38,6 +38,11 @@ def Display_Text(message):
     textrect.center = (Screen_Width // 2, 600)
     win.blit(text, textrect)
 
+def draw_ui():
+    pygame.draw.polygon(win, (250, 250, 250), [(200, 600), (250, 650), (250, 550)])
+    pygame.draw.polygon(win, (250, 250, 250), [(800, 600), (750, 650), (750, 550)])
+    Display_Text(context)
+
 def draw_rectangle():
     pygame.draw.rect(win, (Red, Green, Blue), (Shape_X, Shape_Y, Shape_Width, Shape_Height))
 
@@ -47,6 +52,7 @@ def button(context_index):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     global hasclicked
+
 
     if(click[0] == 0):
         hasclicked = False;
@@ -72,10 +78,17 @@ def button(context_index):
 
     return index
 
+
+def do_context(context_index):
+    local_context_index = context_index
+    global_index = button(local_context_index)
+    return global_index
+
+
+
 # While loop
-
-
-while True:
+run = True
+while run:
     if not Outdoor:
         pygame.time.delay(100)
         draw_rectangle()
@@ -86,12 +99,12 @@ while True:
     if Outdoor:
         pygame.time.delay(100)
         draw_rectangle()
-        pygame.draw.polygon(win, (250, 250, 250), [(200, 600), (250, 650), (250, 550)])
-        pygame.draw.polygon(win, (250, 250, 250), [(800, 600), (750, 650), (750, 550)])
-        context_index = button(context_index)
-        print(context_index)
+        draw_ui()
+        context_index = do_context(context_index)
         context = Locations.convert_index(context_index)
-        Display_Text(context)
+
+
+
         pygame.display.update()
 
 
@@ -106,6 +119,7 @@ while True:
         if event.type == pygame.QUIT:
             run = False
     win.fill((0, 0, 0))
+pygame.display.quit()
 pygame.quit()
 
 

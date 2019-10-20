@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa3c2c7d-cf04-49cc-b74f-dbd348756b9e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/gamefiles/ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameFiles/Characters.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/characters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameFiles/Locations.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/locations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameFiles/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main Directory/Main_Program.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main Directory/Main_Program.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,7 +30,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">

@@ -1,4 +1,6 @@
-context_list = ["Entrance", "First house ", "Second House", "third house"]
+context_list_outdoor = ["Entrance", "First house ", "Second House", "third house"]
+context_list_indoor = ["Door", "chair ", "Table"]
+
 
 
 class Location:
@@ -8,9 +10,8 @@ class Location:
         print(self.Location)
 
 
-def convert_index(index):
-    return context_list[index]
-
+def convert_index_outdoor(index):
+    return context_list_outdoor[index]
 
 def get_list_len():
-    return len(context_list)
+    return len(context_list_outdoor)

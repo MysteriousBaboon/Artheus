@@ -8,102 +8,147 @@ pygame.init()
 pygame.display.set_caption("Artheus")
 
 # Resolution
-Screen_Width = 1000
-Screen_Height = 700
+Screen_Width, Screen_Height = 1000, 700
 win = pygame.display.set_mode((Screen_Width, Screen_Height))
 
 # Shape and size
-Shape_Width = 100
-Shape_Height = 100
-Shape_X = (Screen_Width / 2) - (Shape_Width / 2)
-Shape_Y = (Screen_Height / 2) - (Shape_Height / 2)
+Shape_Width, Shape_Height = 100, 100
+Shape_X, Shape_Y = (Screen_Width / 2) - (Shape_Width / 2), (Screen_Height / 2) - (Shape_Height / 2)
 Shape = "Rectangle"
+
 # Colors
-Red = 55
-Green = 100
-Blue = 200
+Red, Green, Blue = 55, 100, 200
+
 # State of the Player
-Outdoor = True
 Fame = 0
-context = "nothing"
-context_index = 0
-context_max_index = locations.get_list_len()
+place = "Outside"
+
+
+# Class definition
+class Move:
+    def __init__(self, direction, name):
+        self.direction = direction
+        self.name = name
+
+    def return_direction(self):
+        return self.direction
+
+    def return_name(self):
+        return self.name
+
+
+house = Move("house", "house")
+mayor = Move("mayor", "mayor")
+
+
+class Location:
+    """This Class is used for handling the position where you are and what you can do
+    and where you can
+    Context_list is used to store every possible direction displayed
+    location index is just to move between this list
+    """
+    def __init__(self, location_name, context_list):
+        self.location_name = location_name
+        self.context_list = context_list
+        self.location_index = 1
+        self.max_index = len(context_list)
+
+    def return_context_name(self):
+        current_selection = self.context_list[self.location_index]
+        if isinstance(current_selection, Move):
+            return current_selection.name
+        else:
+            return current_selection.name
+
+    def return_context(self):
+        current_selection = self.context_list[self.location_index]
+        return current_selection
+
+
+beginning = Location("Beginning", [house, mayor])
+actual_location = beginning
+
+
 # Ui
-
-
-def display_text(message):
-
+def display_text(message, y_position):
     font = pygame.font.Font("freesansbold.ttf", 32)
-    text = font.render(message, True, (255, 255, 255))
+    text = font.render(message, True, (20, 60, 255))
     textrect = text.get_rect()
-    textrect.center = (Screen_Width // 2, 600)
+    textrect.center = (Screen_Width // 2, y_position)
     win.blit(text, textrect)
 
 
 def draw_ui():
-    pygame.draw.polygon(win, (250, 250, 250), [(200, 600), (250, 650), (250, 550)])
-    pygame.draw.polygon(win, (250, 250, 250), [(800, 600), (750, 650), (750, 550)])
-    display_text(context)
+    pygame.draw.polygon(win, (250, 250, 250), [(300, 600), (350, 650), (350, 550)])
+    pygame.draw.polygon(win, (250, 250, 250), [(700, 600), (650, 650), (650, 550)])
+    pygame.draw.rect(win, (180, 180, 180), (360, 575, 280, 55))
+    pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width/2, Shape_Y - Shape_Height/2, Shape_Width*2, Shape_Height*2], 1)
+    pygame.draw.rect(win, (180, 180, 180), (360, 25, 280, 50))
+    display_text(place, 50)
 
 
 def draw_rectangle():
     pygame.draw.rect(win, (Red, Green, Blue), (Shape_X, Shape_Y, Shape_Width, Shape_Height))
 
+
 # Controls
-
-
-def button(context_index):
-    index = context_index
+def button_index(index):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     hasclicked = False
 
+
 # Left arrow clickable
-    if 200 < mouse[0] < 250 and 550 < mouse[1] < 700:
-        pygame.draw.polygon(win, (100, 200, 200), [(200, 600), (250, 650), (250, 550)])
+    if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
+        pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
         if click[0] == 1 and not hasclicked:
             if not index == 0:
                 index -= 1
             else:
-                index = context_max_index - 1
+                index = actual_location.max_index - 1
             hasclicked = True
 
 # Right arrow clickable
-    elif 750 < mouse[0] < 800 and 550 < mouse[1] < 700:
-        pygame.draw.polygon(win, (100, 200, 200), [(800, 600), (750, 650), (750, 550)])
+    elif 700 > mouse[0] > 650 > mouse[1] > 550:
+        pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
         if click[0] == 1 and not hasclicked:
-            if not index == context_max_index - 1:
+            if not index == actual_location.max_index - 1:
                 index += 1
             else:
                 index = 0
                 hasclicked = True
-
     return index
 
 
-def do_context(context_index):
-    local_context_index = context_index
-    global_index = button(local_context_index)
-    return global_index
+# Menu between arrows
+def button_action(context):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    hasclicked = False
+
+    if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
+        pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
+        if click[0] == 1 and not hasclicked:
+            if isinstance(context, Move):
+                print("Move Class")
+                return actual_location
+            else:
+                print("Not move class")
+                return actual_location
+    else:
+        print("No click")
+        return actual_location
+
 
 # While loop
-
-
 run = True
 while run:
-    if not Outdoor:
-        pygame.time.delay(100)
-        draw_rectangle()
-        button()
-        pygame.display.update()
-    if Outdoor:
-        pygame.time.delay(100)
-        draw_rectangle()
-        draw_ui()
-        context_index = button(context_index)
-        context = do_context(context_index)
-        pygame.display.update()
-
+    pygame.time.delay(100)
+    draw_ui()
+    actual_location.location_index = button_index(actual_location.location_index)
+    actual_location = button_action(actual_location.return_context())
+    display_text(actual_location.return_context_name(), 600)
+    pygame.display.update()
 
 # Common code
 

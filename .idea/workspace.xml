@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa3c2c7d-cf04-49cc-b74f-dbd348756b9e" name="Default Changelist" comment="Not Working">
+    <list default="true" id="fa3c2c7d-cf04-49cc-b74f-dbd348756b9e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main Directory/Main_Program.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main Directory/Main_Program.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamefiles/locations.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/locations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main Directory/Main_Program.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main Directory/Main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +64,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="E:\GitHub_Projects\Artheus\Main Directory\Main_Program.py" />
+      <option name="SCRIPT_NAME" value="E:\GitHub_Projects\Artheus\Main Directory\Main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -86,7 +85,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="E:\GitHub_Projects\Artheus\Main Directory\Main_Program.py" />
+      <option name="SCRIPT_NAME" value="E:\GitHub_Projects\Artheus\Main Directory\Main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -107,7 +106,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main Directory/Main_Program.py" />
+      <option name="SCRIPT_NAME" value="E:\GitHub_Projects\Artheus\Main Directory\Main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -142,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571554782193</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Not Working (2) but started to clean">
+      <created>1572128814154</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1572128814154</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -160,7 +166,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Not Working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Not Working" />
+    <MESSAGE value="Not Working (2) but started to clean" />
+    <option name="LAST_COMMIT_MESSAGE" value="Not Working (2) but started to clean" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

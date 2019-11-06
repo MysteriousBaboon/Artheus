@@ -39,6 +39,7 @@ class Move:
 
 house = Move("house", "house")
 mayor = Move("mayor", "mayor")
+all_locations = {'house': house, 'mayor': mayor}
 
 
 class Location:
@@ -62,6 +63,7 @@ class Location:
 
     def return_context(self):
         current_selection = self.context_list[self.location_index]
+        print(str(type(current_selection)) + "Type context")
         return current_selection
 
 
@@ -121,23 +123,27 @@ def button_index(index):
 
 
 # Menu between arrows
-def button_action(context):
+def button_action(pre_context,location):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+    new_context = pre_context
     hasclicked = False
 
     if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
         pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
+
         if click[0] == 1 and not hasclicked:
-            if isinstance(context, Move):
-                print("Move Class")
-                return actual_location
+            print("Clicked")
+            if isinstance(pre_context, Move):
+                pre_context = pre_context
             else:
-                print("Not move class")
-                return actual_location
-    else:
-        print("No click")
-        return actual_location
+                pre_context = pre_context
+
+        else:
+            pre_context = pre_context
+
+    return pre_context
+
 
 
 # While loop
@@ -146,7 +152,9 @@ while run:
     pygame.time.delay(100)
     draw_ui()
     actual_location.location_index = button_index(actual_location.location_index)
-    actual_location = button_action(actual_location.return_context())
+    print(str(type(actual_location)) + "location before")
+    actual_location = button_action(actual_location.return_context(), actual_location)
+    print(str(type(actual_location)) + "location after")
     display_text(actual_location.return_context_name(), 600)
     pygame.display.update()
 

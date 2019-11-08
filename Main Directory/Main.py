@@ -21,25 +21,21 @@ Red, Green, Blue = 55, 100, 200
 
 # State of the Player
 Fame = 0
-place = "Outside"
+place = "None"
 
 
 # Class definition
 class Move:
-    def __init__(self, direction, name):
+    def __init__(self, direction):
         self.direction = direction
-        self.name = name
-
-    def return_direction(self):
-        return self.direction
-
-    def return_name(self):
-        return self.name
 
 
-house = Move("house", "house")
-mayor = Move("mayor", "mayor")
-all_locations = {'house': house, 'mayor': mayor}
+# Move class
+house1 = Move("house1")
+mayor = Move("mayor")
+
+chair = Move("chair")
+desk = Move("desk")
 
 
 class Location:
@@ -57,18 +53,20 @@ class Location:
     def return_context_name(self):
         current_selection = self.context_list[self.location_index]
         if isinstance(current_selection, Move):
-            return current_selection.name
+            return current_selection.direction
         else:
-            return current_selection.name
+            return "None"
 
     def return_context(self):
         current_selection = self.context_list[self.location_index]
-        print(str(type(current_selection)) + "Type context")
         return current_selection
 
 
-beginning = Location("Beginning", [house, mayor])
-actual_location = beginning
+Beginning = Location("Village", [house1, mayor])
+Outside = Location("Outside", [chair, desk])
+
+actual_location = Beginning
+all_locations = {"Village": Beginning, "Outside": Outside}
 
 
 # Ui
@@ -89,17 +87,11 @@ def draw_ui():
     display_text(place, 50)
 
 
-def draw_rectangle():
-    pygame.draw.rect(win, (Red, Green, Blue), (Shape_X, Shape_Y, Shape_Width, Shape_Height))
-
-
 # Controls
 def button_index(index):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     hasclicked = False
-
-
 # Left arrow clickable
     if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
         pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
@@ -109,7 +101,6 @@ def button_index(index):
             else:
                 index = actual_location.max_index - 1
             hasclicked = True
-
 # Right arrow clickable
     elif 700 > mouse[0] > 650 > mouse[1] > 550:
         pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
@@ -123,27 +114,18 @@ def button_index(index):
 
 
 # Menu between arrows
-def button_action(pre_context,location):
+def button_action(context, location):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    new_context = pre_context
-    hasclicked = False
 
     if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
         pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
 
-        if click[0] == 1 and not hasclicked:
-            print("Clicked")
-            if isinstance(pre_context, Move):
-                pre_context = pre_context
-            else:
-                pre_context = pre_context
+        if click[0] == 1:
+            if isinstance(context, Move):
+                return context.direction
 
-        else:
-            pre_context = pre_context
-
-    return pre_context
-
+    return location.location_name
 
 
 # While loop
@@ -151,10 +133,12 @@ run = True
 while run:
     pygame.time.delay(100)
     draw_ui()
+    place = actual_location.location_name
     actual_location.location_index = button_index(actual_location.location_index)
-    print(str(type(actual_location)) + "location before")
-    actual_location = button_action(actual_location.return_context(), actual_location)
-    print(str(type(actual_location)) + "location after")
+    a = button_action(actual_location.return_context(), actual_location)
+    print(str(a) + "1")
+    actual_location = all_locations[a]
+    print(str(a) + " 2")
     display_text(actual_location.return_context_name(), 600)
     pygame.display.update()
 

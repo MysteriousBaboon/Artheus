@@ -1,12 +1,14 @@
 import pygame
+import sys
 import time
 
 from gamefiles import locations as location
-from gamefiles import ui
+
 
 # Initialize
 pygame.init()
 pygame.display.set_caption("Artheus")
+run = True
 
 # Resolution
 Screen_Width, Screen_Height = 1000, 700
@@ -35,12 +37,29 @@ def display_text(message, y_position):
 
 
 def draw_ui():
+    # Context UI
     pygame.draw.polygon(win, (250, 250, 250), [(300, 600), (350, 650), (350, 550)])
     pygame.draw.polygon(win, (250, 250, 250), [(700, 600), (650, 650), (650, 550)])
     pygame.draw.rect(win, (180, 180, 180), (360, 575, 280, 55))
-    pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width/2, Shape_Y - Shape_Height/2, Shape_Width*2, Shape_Height*2], 1)
+    # Shape UI
+    pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width/2, Shape_Y - Shape_Height/2, Shape_Width*2,
+                                        Shape_Height*2], 1)
+    # Top UI
     pygame.draw.rect(win, (180, 180, 180), (360, 25, 280, 50))
     display_text(place, 50)
+    # Text Box UI
+    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
+    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
+
+
+def draw_dialogue(message):
+    font = pygame.font.Font("freesansbold.ttf", 20)
+    for char in message:
+        text = font.render(char, True, (200, 200, 200))
+        time.sleep(0.1)
+    textrect = text.get_rect()
+    textrect.midleft = (25, 390)
+    win.blit(text, textrect)
 
 
 # Controls
@@ -80,12 +99,13 @@ def button_action(context, location):
         if click[0] == 1:
             if isinstance(context, location.Move):
                 return context.direction
+            if isinstance(context, location.Talk):
+                draw_dialogue(context.message)
 
     return location.name
 
 
 # While loop
-run = True
 while run:
     pygame.time.delay(100)
     draw_ui()

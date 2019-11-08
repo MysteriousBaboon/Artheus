@@ -1,7 +1,15 @@
+
+
+
 # Class definition
 class Move:
     def __init__(self, direction):
         self.direction = direction
+
+
+class Talk:
+    def __init__(self, message):
+        self.message = message
 
 
 # Move class
@@ -11,6 +19,8 @@ mayor = Move("mayor")
 chair = Move("chair")
 desk = Move("desk")
 
+# Talk class
+George = Talk("Hello, i'm george")
 
 class Location:
     """This Class is used for handling the position where you are and what you can do

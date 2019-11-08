@@ -1,6 +1,7 @@
 import pygame
-from gamefiles import locations
 import time
+
+from gamefiles import locations as location
 from gamefiles import ui
 
 # Initialize
@@ -22,51 +23,6 @@ Red, Green, Blue = 55, 100, 200
 # State of the Player
 Fame = 0
 place = "None"
-
-
-# Class definition
-class Move:
-    def __init__(self, direction):
-        self.direction = direction
-
-
-# Move class
-house1 = Move("house1")
-mayor = Move("mayor")
-
-chair = Move("chair")
-desk = Move("desk")
-
-
-class Location:
-    """This Class is used for handling the position where you are and what you can do
-    and where you can
-    Context_list is used to store every possible direction displayed
-    location index is just to move between this list
-    """
-    def __init__(self, location_name, context_list):
-        self.location_name = location_name
-        self.context_list = context_list
-        self.location_index = 1
-        self.max_index = len(context_list)
-
-    def return_context_name(self):
-        current_selection = self.context_list[self.location_index]
-        if isinstance(current_selection, Move):
-            return current_selection.direction
-        else:
-            return "None"
-
-    def return_context(self):
-        current_selection = self.context_list[self.location_index]
-        return current_selection
-
-
-Beginning = Location("Village", [house1, mayor])
-Outside = Location("Outside", [chair, desk])
-
-actual_location = Beginning
-all_locations = {"Village": Beginning, "Outside": Outside}
 
 
 # Ui
@@ -99,13 +55,13 @@ def button_index(index):
             if not index == 0:
                 index -= 1
             else:
-                index = actual_location.max_index - 1
+                index = location.actual.max_index - 1
             hasclicked = True
 # Right arrow clickable
     elif 700 > mouse[0] > 650 > mouse[1] > 550:
         pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
         if click[0] == 1 and not hasclicked:
-            if not index == actual_location.max_index - 1:
+            if not index == location.actual.max_index - 1:
                 index += 1
             else:
                 index = 0
@@ -122,10 +78,10 @@ def button_action(context, location):
         pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
 
         if click[0] == 1:
-            if isinstance(context, Move):
+            if isinstance(context, location.Move):
                 return context.direction
 
-    return location.location_name
+    return location.name
 
 
 # While loop
@@ -133,13 +89,11 @@ run = True
 while run:
     pygame.time.delay(100)
     draw_ui()
-    place = actual_location.location_name
-    actual_location.location_index = button_index(actual_location.location_index)
-    a = button_action(actual_location.return_context(), actual_location)
-    print(str(a) + "1")
-    actual_location = all_locations[a]
-    print(str(a) + " 2")
-    display_text(actual_location.return_context_name(), 600)
+    place = location.actual.name
+    location.actual.location_index = button_index(location.actual.location_index)
+    a = button_action(location.actual.return_context(), location.actual)
+    location.actual = location.every[a]
+    display_text(location.actual.return_context_name(), 600)
     pygame.display.update()
 
 # Common code

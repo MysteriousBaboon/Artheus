@@ -1,127 +1,44 @@
 import pygame
-import sys
+import gamefiles.locations as location
+import gamefiles.ui as ui
 import time
-
-from gamefiles import locations as location
-
 
 # Initialize
 pygame.init()
 pygame.display.set_caption("Artheus")
 run = True
-
-# Resolution
-Screen_Width, Screen_Height = 1000, 700
-win = pygame.display.set_mode((Screen_Width, Screen_Height))
-
-# Shape and size
-Shape_Width, Shape_Height = 100, 100
-Shape_X, Shape_Y = (Screen_Width / 2) - (Shape_Width / 2), (Screen_Height / 2) - (Shape_Height / 2)
-Shape = "Rectangle"
-
-# Colors
-Red, Green, Blue = 55, 100, 200
-
-# State of the Player
-Fame = 0
-place = "None"
+new_room = False
 
 
-# Ui
-def display_text(message, y_position):
-    font = pygame.font.Font("freesansbold.ttf", 32)
-    text = font.render(message, True, (20, 60, 255))
-    textrect = text.get_rect()
-    textrect.center = (Screen_Width // 2, y_position)
-    win.blit(text, textrect)
+def mouse():
+    ui.click = pygame.mouse.get_pressed()
+    ui.mouse = pygame.mouse.get_pos()
+    if ui.click[0] == 1 and ui.click_state == "Pressed":
+        ui.click_state = "Hold"
+        return
+    if ui.click[0] == 1 and ui.click_state == "Released":
+        ui.click_state = "Pressed"
+        return
+    elif ui.click_state != "Released" and ui.click[0] == 0:
+        ui.click_state = "Released"
+        return
 
 
-def draw_ui():
-    # Context UI
-    pygame.draw.polygon(win, (250, 250, 250), [(300, 600), (350, 650), (350, 550)])
-    pygame.draw.polygon(win, (250, 250, 250), [(700, 600), (650, 650), (650, 550)])
-    pygame.draw.rect(win, (180, 180, 180), (360, 575, 280, 55))
-    # Shape UI
-    pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width/2, Shape_Y - Shape_Height/2, Shape_Width*2,
-                                        Shape_Height*2], 1)
-    # Top UI
-    pygame.draw.rect(win, (180, 180, 180), (360, 25, 280, 50))
-    display_text(place, 50)
-    # Text Box UI
-    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
-    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
-
-
-def draw_dialogue(message):
-    font = pygame.font.Font("freesansbold.ttf", 20)
-    for char in message:
-        text = font.render(char, True, (200, 200, 200))
-        time.sleep(0.1)
-    textrect = text.get_rect()
-    textrect.midleft = (25, 390)
-    win.blit(text, textrect)
-
-
-# Controls
-def button_index(index):
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-    hasclicked = False
-# Left arrow clickable
-    if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
-        pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
-        if click[0] == 1 and not hasclicked:
-            if not index == 0:
-                index -= 1
-            else:
-                index = location.actual.max_index - 1
-            hasclicked = True
-# Right arrow clickable
-    elif 700 > mouse[0] > 650 > mouse[1] > 550:
-        pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
-        if click[0] == 1 and not hasclicked:
-            if not index == location.actual.max_index - 1:
-                index += 1
-            else:
-                index = 0
-                hasclicked = True
-    return index
-
-
-# Menu between arrows
-def button_action(context, location):
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-
-    if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
-        pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
-
-        if click[0] == 1:
-            if isinstance(context, location.Move):
-                return context.direction
-            if isinstance(context, location.Talk):
-                draw_dialogue(context.message)
-
-    return location.name
-
-
-# While loop
+# Step Loop
 while run:
-    pygame.time.delay(100)
-    draw_ui()
-    place = location.actual.name
-    location.actual.location_index = button_index(location.actual.location_index)
-    a = button_action(location.actual.return_context(), location.actual)
-    location.actual = location.every[a]
-    display_text(location.actual.return_context_name(), 600)
+    pygame.time.delay(60)
+    mouse()
+    if not new_room:
+        new_room = ui.initialize_ui()
+    location.control_check(location.actual)
     pygame.display.update()
 
-# Common code
 
+# Application Code for leaving
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    win.fill((0, 0, 0))
+    # win.fill((0, 0, 0))
 pygame.display.quit()
 pygame.quit()
 

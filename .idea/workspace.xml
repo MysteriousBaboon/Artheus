@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fa3c2c7d-cf04-49cc-b74f-dbd348756b9e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamefiles/characters.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/gamefiles/locations.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/locations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gamefiles/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamefiles/ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/Main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

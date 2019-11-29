@@ -9,20 +9,42 @@ class Move:
         self.direction = direction
 
 
-class Talk:
+class Character:
+    def __init__(self, name, color, shape, dialogues):
+        self.name = name
+        self.red, self.green, self.blue = color
+        self.shape = shape
+        self.dialogues = dialogues
+
+    def draw_soul(self):
+        pygame.draw.polygon(ui.win, [self.red, self.green, self.blue], self.shape, 0)
+
+    # Box where you will create the shapes
+    # pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
+    #                                        Shape_Height * 2], 1)
+
+
+class Interact:
     def __init__(self, name, message):
         self.name = name
         self.message = message
 
 
 # Move class
-house1 = Move("Outside")
+Move_Test = Move("Test")
 
-chair = Move("Beginning")
-# Talk class
-George = Talk("George", "Hello, i'm george. ")
+# Characters Class
+Character_Test = Character("Character_test", [255, 90, 60], [(450, 300), (550, 300),
+                                                             (510, 325), (510, 400),
+                                                             (490, 400), (490, 325),
+                                                             ],
+                           ["=) Hello , this is the first text box",
+                            "Hello , this is the second text box",
+                            "Hello , this is the third text box"]
+                           )
 
-Brian = Talk("Brian", "Hello , i'm brian.")
+# Interact class
+Interact_Test = Interact("Interact_Test", "This is a test for written text ")
 
 
 class Location:
@@ -31,6 +53,7 @@ class Location:
     Context_list is used to store every possible direction displayed
     location index is just to move between this list
     """
+
     def __init__(self, name, context_list):
         self.name = name
         self.context_list = context_list
@@ -41,8 +64,11 @@ class Location:
         current_selection = self.context_list[self.location_index]
         if isinstance(current_selection, Move):
             return current_selection.direction
-        if isinstance(current_selection, Talk):
+        if isinstance(current_selection, Interact):
             return current_selection.name
+        if isinstance(current_selection, Character):
+            return current_selection.name
+
         else:
             return "None"
 
@@ -51,11 +77,10 @@ class Location:
         return current_selection
 
 
-Beginning = Location("Village", [house1, George])
-Outside = Location("Outside", [chair, Brian])
+Beginning = Location("Test", [Move_Test, Character_Test, Interact_Test])
 
 actual = Beginning
-every = {"Village": Beginning, "Outside": Outside}
+every = {"Test": Beginning}
 
 place = actual.name
 
@@ -65,7 +90,3 @@ def control_check(actual):
     a = ui.button_action(actual.return_context(), actual)
     ui.place = a
     actual = every[a]
-
-
-
-

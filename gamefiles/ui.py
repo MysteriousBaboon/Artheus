@@ -12,6 +12,7 @@ Shape_X, Shape_Y = (Screen_Width / 2) - (Shape_Width / 2), (Screen_Height / 2) -
 
 # Player info
 place = "None"
+istalking = "False"
 
 # Click handling
 click = pygame.mouse.get_pressed()
@@ -60,7 +61,7 @@ def draw_dialogue(message):
         win.blit(text, textrect)
         i += 1
 
-    def type_writer(font, text):
+    def type_writer(font):
         global actual_line
         for char in message:
             if font.render(lines[actual_line] + char, True, (200, 200, 200)).get_width() > 230:
@@ -76,7 +77,7 @@ def draw_dialogue(message):
         actual_line += 1
 
     if message != "None":
-        type_writer(font, message)
+        type_writer(font)
 
 
 def draw_chat():
@@ -110,8 +111,30 @@ def draw_top_context():
 
 def draw_shape_ui():
     # Shape UI
-    pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
-                                        Shape_Height * 2], 1)
+    pygame.draw.rect(win, [150, 150, 150], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
+                                            Shape_Height * 2], 0)
+    pygame.draw.rect(win, [70, 210, 140], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
+                                           Shape_Height * 2], 4)
+    location.Character_Test.draw_soul()
+    display_text(location.Character_Test.name, 480)
+    draw_right_context()
+
+
+def draw_right_context():
+    i = 0
+    ii = 0
+    right_context_lines = location.Character_Test.dialogues
+    while i < len(right_context_lines):
+        if isinstance(right_context_lines[i], str):
+            font = pygame.font.Font("freesansbold.ttf", 16)
+            text = font.render(right_context_lines[i], True, (20, 60, 255))
+            textrect = text.get_rect()
+            textrect.center = (800, 300 + 20 * ii)
+            win.blit(text, textrect)
+            ii += 1
+        else:
+            right_context_lines[i]()
+        i += 1
 
 
 # Controls
@@ -146,6 +169,7 @@ def button_index(index):
 
 def button_action(context, locations):
     # Menu between arrows
+    global istalking
     if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
         pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
         display_text(location.actual.return_context_name(), 600)
@@ -154,10 +178,13 @@ def button_action(context, locations):
             if isinstance(context, location.Move):
                 draw_top_context()
                 return context.direction
-            if isinstance(context, location.Talk):
+            elif isinstance(context, location.Interact):
                 draw_dialogue(context.message)
+            elif isinstance(context, location.Character):
+                istalking = True
+                draw_shape_ui()
             else:
-                print("Error:Button_action Class")
+                print("UI Error:Button_action Class")
 
     return locations.name
 
@@ -165,7 +192,8 @@ def button_action(context, locations):
 def initialize_ui():
     draw_bot_context()
     draw_top_context()
-    draw_shape_ui()
+    if istalking is True:
+        draw_shape_ui()
     draw_chat()
     draw_dialogue("None")
     return True

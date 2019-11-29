@@ -31,7 +31,6 @@ while run:
     mouse()
     if not new_room:
         new_room = ui.initialize_ui()
-    pygame.display.flip()
     location.control_check(location.actual)
     pygame.display.update()
 

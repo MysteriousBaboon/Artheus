@@ -30,6 +30,7 @@ class Interact:
         self.message = message
 
 
+########################################################################################################################
 # Move class
 Move_Test = Move("Test")
 
@@ -47,6 +48,8 @@ Character_Test = Character("Character_test", [255, 90, 60], [(450, 300), (550, 3
 Interact_Test = Interact("Interact_Test", "This is a test for written text ")
 
 
+########################################################################################################################
+# Class Location control the movement in the different places , each Location is like a room with it's own NPC
 class Location:
     """This Class is used for handling the position where you are and what you can do
     and where you can
@@ -77,12 +80,14 @@ class Location:
         return current_selection
 
 
+########################################################################################################################
+# actual is the location the player is actually in, and place is the name displayed of this location.
+# every is a dictionnary with key for every location in the game
+
 Beginning = Location("Test", [Move_Test, Character_Test, Interact_Test])
-
 actual = Beginning
-every = {"Test": Beginning}
-
 place = actual.name
+every = {"Test": Beginning}
 
 
 def control_check(actual):

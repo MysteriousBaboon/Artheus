@@ -2,8 +2,8 @@ import pygame
 import time
 from gamefiles import locations as location
 
-# Resolution
-screen_width, screen_height = 1920, 1080
+# Resolution (Compare current aspect ratio with 1280/720 and will scale all the UI with this value
+screen_width, screen_height = 1280, 720
 ratio_width, ratio_height = screen_width / 1280.0, screen_height / 720.0
 win = pygame.display.set_mode((screen_width, screen_height))
 
@@ -20,8 +20,7 @@ click = pygame.mouse.get_pressed()
 mouse = pygame.mouse.get_pos()
 click_state = "Released"
 
-# Dialogues List
-
+# Dialogues List which will be used by the typewriter
 lines = ["",
          "",
          "",
@@ -41,6 +40,8 @@ lines = ["",
 actual_line = 0
 
 
+########################################################################################################################
+# Draw Dialogue will be used for the chatbox, display text will be used for the different context(Top,Soul,Bot)
 def draw_dialogue(message):
     # Handle UI and Font
     pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
@@ -81,13 +82,6 @@ def draw_dialogue(message):
         type_writer(font)
 
 
-def draw_chat():
-    # Text Box UI
-    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
-    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
-
-
-# Ui
 def display_text(message, y_position, size, color):
     font = pygame.font.Font("font.ttf", size)
     text = font.render(message, True, color)
@@ -96,16 +90,12 @@ def display_text(message, y_position, size, color):
     win.blit(text, textrect)
 
 
-def draw_bot_context():
-    # Context UI
-    pygame.draw.polygon(win, (250, 250, 250), [(300, 600), (350, 650), (350, 550)])
-    pygame.draw.polygon(win, (250, 250, 250), [(700, 600), (650, 650), (650, 550)])
-    if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
-        pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
-    elif 700 > mouse[0] > 650 > mouse[1] > 550:
-        pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
-    pygame.draw.rect(win, (180, 180, 180), (360, 575, 280, 55))
-    display_text(location.actual.return_context_name(), 600, 32, (76, 86, 112))
+########################################################################################################################
+# Ui
+def draw_chat():
+    # Text Box UI
+    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
+    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
 
 
 def draw_top_context():
@@ -118,14 +108,39 @@ def draw_top_context():
     display_text(place, 45 * ratio_height, int(32 * ratio_height), (0, 27, 145))
 
 
+def draw_bot_context():
+    # Bot UI display (Arrows, action button)
+    pygame.draw.polygon(win, (250, 250, 250), [(425 * ratio_width, 600 * ratio_height),
+                                               (475 * ratio_width, 650 * ratio_height),
+                                               (475 * ratio_width, 550 * ratio_height)])
+    pygame.draw.polygon(win, (250, 250, 250), [(850 * ratio_width, 600 * ratio_height),
+                                               (800 * ratio_width, 650 * ratio_height),
+                                               (800 * ratio_width, 550 * ratio_height)])
+
+    if 425 * ratio_width < mouse[0] < 475 * ratio_width and 550 * ratio_height < mouse[1] < 650 * ratio_height:
+        pygame.draw.polygon(win, (100, 200, 200), [(425 * ratio_width, 600 * ratio_height),
+                                                   (475 * ratio_width, 650 * ratio_height),
+                                                   (475 * ratio_width, 550 * ratio_height)])
+    elif 850 * ratio_width > mouse[0] > 800 * ratio_width and 550 * ratio_height < mouse[1] < 650 * ratio_height:
+        pygame.draw.polygon(win, (100, 200, 200), [(850 * ratio_width, 600 * ratio_height),
+                                                   (800 * ratio_width, 650 * ratio_height),
+                                                   (800 * ratio_width, 550 * ratio_height)])
+
+    pygame.draw.rect(win, (150, 150, 150), (500 * ratio_width, 570 * ratio_height,
+                                            280 * ratio_width, 70 * ratio_height))
+    pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 570 * ratio_height,
+                                         280 * ratio_width, 70 * ratio_height), 3)
+    display_text(location.actual.return_context_name(), 600 * ratio_height, int(32 * ratio_height), (255, 255, 255))
+
+
 def draw_shape_ui():
     # Shape UI
-    pygame.draw.rect(win, [150, 150, 150], [shape_X - shape_width / 2, shape_Y - shape_height / 2, shape_width * 2,
-                                            shape_height * 2], 0)
-    pygame.draw.rect(win, [70, 210, 140], [shape_X - shape_width / 2, shape_Y - shape_height / 2, shape_width * 2,
-                                           shape_height * 2], 4)
+    pygame.draw.rect(win, [150, 150, 150], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
+                                            300 * ratio_height], 0)
+    pygame.draw.rect(win, [140, 10, 0], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
+                                         300 * ratio_height], 4)
     location.Character_Test.draw_soul()
-    display_text(location.Character_Test.name, 480)
+    display_text(location.Character_Test.name, 480 * ratio_height, 44, (255, 255, 255))
     draw_right_context()
 
 
@@ -146,10 +161,11 @@ def draw_right_context():
         i += 1
 
 
+########################################################################################################################
 # Controls
 def button_index(index):
     # Left arrow clickable
-    if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
+    if 425 * ratio_width < mouse[0] < 475 * ratio_width and 550 * ratio_height < mouse[1] < 650 * ratio_height:
         if click_state == "Pressed":
             if not index == 0:
                 index -= 1
@@ -158,7 +174,7 @@ def button_index(index):
             hasclicked = True
 
     # Right arrow clickable
-    elif 700 > mouse[0] > 650 > mouse[1] > 550:
+    elif 850 * ratio_width > mouse[0] > 800 * ratio_width and 550 * ratio_height < mouse[1] < 650 * ratio_height:
         if click_state == "Pressed":
             if not index == location.actual.max_index - 1:
                 index += 1
@@ -167,10 +183,6 @@ def button_index(index):
                 hasclicked = True
     elif 360 > mouse[0] > 640 and 575 < mouse[1] < 640:
         pass
-    elif click_state != "Released" or click_state != "Pressed":
-        draw_bot_context()
-    else:
-        draw_bot_context()
     draw_bot_context()
     return index
 
@@ -178,10 +190,10 @@ def button_index(index):
 def button_action(context, locations):
     # Menu between arrows
     global istalking
-    if 360 < mouse[0] < 640 and 575 < mouse[1] < 630:
-        pygame.draw.rect(win, (255, 255, 255), (360, 575, 280, 55))
-        display_text(location.actual.return_context_name(), 600)
-
+    if 500 * ratio_width < mouse[0] < 780 * ratio_width and 570 * ratio_height < mouse[1] < 640 * ratio_height:
+        pygame.draw.rect(win, (160, 160, 160), (500 * ratio_width, 570 * ratio_height,
+                                                280 * ratio_width, 70 * ratio_height))
+        display_text(location.actual.return_context_name(), 600 * ratio_height, int(32 * ratio_height), (255, 255, 255))
         if click[0] == 1:
             if isinstance(context, location.Move):
                 draw_top_context()
@@ -197,6 +209,8 @@ def button_action(context, locations):
     return locations.name
 
 
+########################################################################################################################
+# Initialization of the UI , it's used when you move to a different place or need to redraw the entire interface
 def initialize_ui():
     draw_bot_context()
     draw_top_context()

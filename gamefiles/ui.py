@@ -3,12 +3,13 @@ import time
 from gamefiles import locations as location
 
 # Resolution
-Screen_Width, Screen_Height = 1000, 700
-win = pygame.display.set_mode((Screen_Width, Screen_Height))
+screen_width, screen_height = 1920, 1080
+ratio_width, ratio_height = screen_width / 1280.0, screen_height / 720.0
+win = pygame.display.set_mode((screen_width, screen_height))
 
 # Shape and size
-Shape_Width, Shape_Height = 100, 100
-Shape_X, Shape_Y = (Screen_Width / 2) - (Shape_Width / 2), (Screen_Height / 2) - (Shape_Height / 2)
+shape_width, shape_height = 100, 100
+shape_X, shape_Y = (screen_width / 2) - (shape_width / 2), (screen_height / 2) - (shape_height / 2)
 
 # Player info
 place = "None"
@@ -87,11 +88,11 @@ def draw_chat():
 
 
 # Ui
-def display_text(message, y_position):
-    font = pygame.font.Font("freesansbold.ttf", 32)
-    text = font.render(message, True, (20, 60, 255))
+def display_text(message, y_position, size, color):
+    font = pygame.font.Font("font.ttf", size)
+    text = font.render(message, True, color)
     textrect = text.get_rect()
-    textrect.center = (Screen_Width // 2, y_position)
+    textrect.center = (screen_width // 2, y_position)
     win.blit(text, textrect)
 
 
@@ -99,22 +100,30 @@ def draw_bot_context():
     # Context UI
     pygame.draw.polygon(win, (250, 250, 250), [(300, 600), (350, 650), (350, 550)])
     pygame.draw.polygon(win, (250, 250, 250), [(700, 600), (650, 650), (650, 550)])
+    if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
+        pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
+    elif 700 > mouse[0] > 650 > mouse[1] > 550:
+        pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
     pygame.draw.rect(win, (180, 180, 180), (360, 575, 280, 55))
-    display_text(location.actual.return_context_name(), 600)
+    display_text(location.actual.return_context_name(), 600, 32, (76, 86, 112))
 
 
 def draw_top_context():
     # Top UI
-    pygame.draw.rect(win, (180, 180, 180), (360, 25, 280, 50))
-    display_text(place, 50)
+    pygame.draw.rect(win, (73, 76, 84), (500 * ratio_width, 25 * ratio_height,
+                                         280 * ratio_width, 50 * ratio_height))
+    pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 25 * ratio_height,
+                                         280 * ratio_width, 50 * ratio_height), 5)
+
+    display_text(place, 45 * ratio_height, int(32 * ratio_height), (0, 27, 145))
 
 
 def draw_shape_ui():
     # Shape UI
-    pygame.draw.rect(win, [150, 150, 150], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
-                                            Shape_Height * 2], 0)
-    pygame.draw.rect(win, [70, 210, 140], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
-                                           Shape_Height * 2], 4)
+    pygame.draw.rect(win, [150, 150, 150], [shape_X - shape_width / 2, shape_Y - shape_height / 2, shape_width * 2,
+                                            shape_height * 2], 0)
+    pygame.draw.rect(win, [70, 210, 140], [shape_X - shape_width / 2, shape_Y - shape_height / 2, shape_width * 2,
+                                           shape_height * 2], 4)
     location.Character_Test.draw_soul()
     display_text(location.Character_Test.name, 480)
     draw_right_context()
@@ -141,7 +150,6 @@ def draw_right_context():
 def button_index(index):
     # Left arrow clickable
     if 300 < mouse[0] < 350 and 550 < mouse[1] < 650:
-        pygame.draw.polygon(win, (100, 200, 200), [(300, 600), (350, 650), (350, 550)])
         if click_state == "Pressed":
             if not index == 0:
                 index -= 1
@@ -151,7 +159,6 @@ def button_index(index):
 
     # Right arrow clickable
     elif 700 > mouse[0] > 650 > mouse[1] > 550:
-        pygame.draw.polygon(win, (100, 200, 200), [(700, 600), (650, 650), (650, 550)])
         if click_state == "Pressed":
             if not index == location.actual.max_index - 1:
                 index += 1
@@ -164,6 +171,7 @@ def button_index(index):
         draw_bot_context()
     else:
         draw_bot_context()
+    draw_bot_context()
     return index
 
 

@@ -18,6 +18,7 @@ def mouse():
         return
     if ui.click[0] == 1 and ui.click_state == "Released":
         ui.click_state = "Pressed"
+        ui.draw_bot_context()
         return
     elif ui.click_state != "Released" and ui.click[0] == 0:
         ui.click_state = "Released"
@@ -30,6 +31,7 @@ while run:
     mouse()
     if not new_room:
         new_room = ui.initialize_ui()
+    pygame.display.flip()
     location.control_check(location.actual)
     pygame.display.update()
 

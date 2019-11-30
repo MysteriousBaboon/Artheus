@@ -1,6 +1,9 @@
 import pygame
 import time
 import gamefiles.ui as ui
+# To gain time i import both ratio as the first letter
+from gamefiles.ui import ratio_width as w
+from gamefiles.ui import ratio_height as h
 
 
 # Class definition
@@ -35,9 +38,9 @@ class Interact:
 Move_Test = Move("Test")
 
 # Characters Class
-Character_Test = Character("Character_test", [255, 90, 60], [(450, 300), (550, 300),
-                                                             (510, 325), (510, 400),
-                                                             (490, 400), (490, 325),
+Character_Test = Character("Character_test", [255, 90, 60], [(w * 600, h * 300), (w * 700, h * 300),
+                                                             (w * 660, h * 325), (w * 660, h * 400),
+                                                             (w * 640, h * 400), (w * 640, h * 325),
                                                              ],
                            ["=) Hello , this is the first text box",
                             "Hello , this is the second text box",
@@ -45,7 +48,7 @@ Character_Test = Character("Character_test", [255, 90, 60], [(450, 300), (550, 3
                            )
 
 # Interact class
-Interact_Test = Interact("Interact_Test", "This is a test for written text ")
+Interact_Test = Interact("Interact_Test", "This is a test for written text aaaaaaaaaaaaa ")
 
 
 ########################################################################################################################

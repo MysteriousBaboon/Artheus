@@ -44,9 +44,12 @@ actual_line = 0
 # Draw Dialogue will be used for the chatbox, display text will be used for the different context(Top,Soul,Bot)
 def draw_dialogue(message):
     # Handle UI and Font
-    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
-    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
-    font = pygame.font.SysFont("Arial", 16, bold=False)
+    pygame.draw.rect(win, [60, 60, 60], (10 * ratio_width, 300 * ratio_height,
+                                         320 * ratio_width, 400 * ratio_height), 0)
+    pygame.draw.rect(win, [30, 30, 30], (10 * ratio_width, 300 * ratio_height,
+                                         320 * ratio_width, 400 * ratio_height), 3)
+    font = pygame.font.Font("Helvetica.ttf", int(16 * ratio_height), bold=True)
+
 
     # Navigate through the list
     i = 0
@@ -59,14 +62,14 @@ def draw_dialogue(message):
         text = font.render(lines[i], True, (200, 200, 200))
         pygame.display.update()
         textrect = text.get_rect()
-        textrect.midleft = (25, 390 + i * 20)
+        textrect.midleft = (20 * ratio_width, (320 + i * 20) * ratio_height)
         win.blit(text, textrect)
         i += 1
 
     def type_writer(font):
         global actual_line
         for char in message:
-            if font.render(lines[actual_line] + char, True, (200, 200, 200)).get_width() > 230:
+            if font.render(lines[actual_line] + char, True, (200, 200, 200)).get_width() > 300 * ratio_width:
                 actual_line += 1
 
             time.sleep(0.1)
@@ -74,7 +77,7 @@ def draw_dialogue(message):
             text = font.render(lines[actual_line], True, (200, 200, 200))
             pygame.display.update()
             textrect = text.get_rect()
-            textrect.midleft = (25, 390 + actual_line * 20)
+            textrect.midleft = (20 * ratio_width, (320 + actual_line * 20) * ratio_height)
             win.blit(text, textrect)
         actual_line += 1
 
@@ -92,11 +95,6 @@ def display_text(message, y_position, size, color):
 
 ########################################################################################################################
 # Ui
-def draw_chat():
-    # Text Box UI
-    pygame.draw.rect(win, [60, 60, 60], (20, 375, 240, 300), 0)
-    pygame.draw.rect(win, [30, 30, 30], (20, 375, 240, 300), 3)
-
 
 def draw_top_context():
     # Top UI
@@ -105,7 +103,7 @@ def draw_top_context():
     pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 25 * ratio_height,
                                          280 * ratio_width, 50 * ratio_height), 5)
 
-    display_text(place, 45 * ratio_height, int(32 * ratio_height), (0, 27, 145))
+    display_text(place, 45 * ratio_height, int(32 * ratio_height), (52, 113, 250))
 
 
 def draw_bot_context():
@@ -128,8 +126,9 @@ def draw_bot_context():
 
     pygame.draw.rect(win, (150, 150, 150), (500 * ratio_width, 570 * ratio_height,
                                             280 * ratio_width, 70 * ratio_height))
-    pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 570 * ratio_height,
-                                         280 * ratio_width, 70 * ratio_height), 3)
+    pygame.draw.rect(win, (160, 160, 160), (500 * ratio_width, 570 * ratio_height,
+                                            280 * ratio_width, 70 * ratio_height))
+
     display_text(location.actual.return_context_name(), 600 * ratio_height, int(32 * ratio_height), (255, 255, 255))
 
 
@@ -137,8 +136,11 @@ def draw_shape_ui():
     # Shape UI
     pygame.draw.rect(win, [150, 150, 150], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
                                             300 * ratio_height], 0)
-    pygame.draw.rect(win, [140, 10, 0], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
+    pygame.draw.rect(win, [107, 59, 12], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
+                                          300 * ratio_height], 8)
+    pygame.draw.rect(win, [82, 75, 60], [490 * ratio_width, 150 * ratio_height, 300 * ratio_width,
                                          300 * ratio_height], 4)
+
     location.Character_Test.draw_soul()
     display_text(location.Character_Test.name, 480 * ratio_height, 44, (255, 255, 255))
     draw_right_context()
@@ -166,6 +168,7 @@ def draw_right_context():
 def button_index(index):
     # Left arrow clickable
     if 425 * ratio_width < mouse[0] < 475 * ratio_width and 550 * ratio_height < mouse[1] < 650 * ratio_height:
+
         if click_state == "Pressed":
             if not index == 0:
                 index -= 1
@@ -191,8 +194,10 @@ def button_action(context, locations):
     # Menu between arrows
     global istalking
     if 500 * ratio_width < mouse[0] < 780 * ratio_width and 570 * ratio_height < mouse[1] < 640 * ratio_height:
-        pygame.draw.rect(win, (160, 160, 160), (500 * ratio_width, 570 * ratio_height,
+        pygame.draw.rect(win, (150, 150, 150), (500 * ratio_width, 570 * ratio_height,
                                                 280 * ratio_width, 70 * ratio_height))
+        pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 570 * ratio_height,
+                                             280 * ratio_width, 70 * ratio_height), 3)
         display_text(location.actual.return_context_name(), 600 * ratio_height, int(32 * ratio_height), (255, 255, 255))
         if click[0] == 1:
             if isinstance(context, location.Move):
@@ -216,6 +221,5 @@ def initialize_ui():
     draw_top_context()
     if istalking is True:
         draw_shape_ui()
-    draw_chat()
     draw_dialogue("None")
     return True

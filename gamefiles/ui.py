@@ -152,10 +152,10 @@ def draw_right_context():
     right_context_lines = location.Character_Test.dialogues
     while i < len(right_context_lines):
         if isinstance(right_context_lines[i], str):
-            font = pygame.font.Font("freesansbold.ttf", 16)
-            text = font.render(right_context_lines[i], True, (20, 60, 255))
+            font = pygame.font.Font("Helvetica.ttf",  int(20 * ratio_width), bold=True)
+            text = font.render(right_context_lines[i], True, (24, 240, 240))
             textrect = text.get_rect()
-            textrect.center = (800, 300 + 20 * ii)
+            textrect.midleft = (850 * ratio_width, (170 + 60 * ii) * ratio_height)
             win.blit(text, textrect)
             ii += 1
         else:
@@ -210,8 +210,12 @@ def button_action(context, locations):
                 draw_shape_ui()
             else:
                 print("UI Error:Button_action Class")
-
     return locations.name
+
+
+def button_right():
+    while i < len(location.Character_Test.dialogues):
+
 
 
 ########################################################################################################################

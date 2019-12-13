@@ -12,6 +12,12 @@ class Move:
         self.direction = direction
 
 
+class Interact:
+    def __init__(self, name, message):
+        self.name = name
+        self.message = message
+
+
 class Character:
     def __init__(self, name, color, shape, dialogues):
         self.name = name
@@ -22,33 +28,35 @@ class Character:
     def draw_soul(self):
         pygame.draw.polygon(ui.win, [self.red, self.green, self.blue], self.shape, 0)
 
-    # Box where you will create the shapes
-    # pygame.draw.rect(win, [255, 0, 0], [Shape_X - Shape_Width / 2, Shape_Y - Shape_Height / 2, Shape_Width * 2,
-    #                                        Shape_Height * 2], 1)
 
+class Answer:
+    def __init__(self, visible, text, emotion, position):
+        self.visible = visible
+        self.text = text
+        self.emotion = emotion
+        self.position = position
 
-class Interact:
-    def __init__(self, name, message):
-        self.name = name
-        self.message = message
+    def draw_bouton(self):
+        pass
 
 
 ########################################################################################################################
 # Move class
 Move_Test = Move("Test")
 
-# Characters Class
-Character_Test = Character("Character_test", [255, 90, 60], [(w * 600, h * 300), (w * 700, h * 300),
-                                                             (w * 660, h * 325), (w * 660, h * 400),
-                                                             (w * 640, h * 400), (w * 640, h * 325),
-                                                             ],
-                           ["=) Hello , this is the first text box",
-                            "Hello , this is the second text box",
-                            "Hello , this is the third text box"]
-                           )
-
 # Interact class
 Interact_Test = Interact("Interact_Test", "This is a test for written text aaaaaaaaaaaaa ")
+
+# Characters Class
+Character_Test = Character("Character_test", [255, 90, 60],
+                           [(w * 600, h * 300), (w * 700, h * 300),
+                            (w * 660, h * 325), (w * 660, h * 400),
+                            (w * 640, h * 400), (w * 640, h * 325),
+                            ],
+                           ["Answer(True, Hello this is a first test message, None, 0)",
+                            "Answer(True, Hello this is a Second test message, None, 1",
+                            ]
+                           )
 
 
 ########################################################################################################################

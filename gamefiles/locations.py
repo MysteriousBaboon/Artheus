@@ -29,15 +29,23 @@ class Character:
         pygame.draw.polygon(ui.win, [self.red, self.green, self.blue], self.shape, 0)
 
 
+
 class Answer:
     def __init__(self, visible, text, emotion, position):
         self.visible = visible
         self.text = text
         self.emotion = emotion
         self.position = position
+'''''
+    def update_variable(self,local,variable,value):
+        if local:
+            variable = value
 
+
+        else
     def draw_bouton(self):
         pass
+        '''
 
 
 ########################################################################################################################

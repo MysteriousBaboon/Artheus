@@ -143,11 +143,25 @@ def draw_shape_ui():
 
     location.Character_Test.draw_soul()
     display_text(location.Character_Test.name, 480 * ratio_height, 44, (255, 255, 255))
-    draw_right_context()
+    draw_right_context(5)
 
 
-def draw_right_context():
-    i = 0
+def draw_right_context(position):
+    pygame.draw.rect(win, (108, 68, 158), (980, 150 + position * 80, 300, 60))
+    pygame.draw.ellipse(win, (108, 68, 158), [950, 150 + position * 80, 60, 60], 0)
+
+    font = pygame.font.Font("font.ttf", 26)
+    text = font.render("test", True, (0, 0, 0))
+    textrect = text.get_rect()
+    textrect.center = (1020, 180)
+    win.blit(text, textrect)
+
+
+
+
+
+''''
+        i = 0
     ii = 0
     right_context_lines = location.Character_Test.dialogues
     while i < len(right_context_lines):
@@ -161,6 +175,7 @@ def draw_right_context():
         else:
             right_context_lines[i]()
         i += 1
+  '''
 
 
 ########################################################################################################################
@@ -213,9 +228,8 @@ def button_action(context, locations):
     return locations.name
 
 
-def button_right():
-    while i < len(location.Character_Test.dialogues):
-
+## def button_right():
+   ## while i < len(location.Character_Test.dialogues):
 
 
 ########################################################################################################################

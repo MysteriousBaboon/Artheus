@@ -29,13 +29,17 @@ class Character:
         pygame.draw.polygon(ui.win, [self.red, self.green, self.blue], self.shape, 0)
 
 
-
 class Answer:
-    def __init__(self, visible, text, emotion, position):
-        self.visible = visible
+    def __init__(self, text):
         self.text = text
-        self.emotion = emotion
-        self.position = position
+        self.new_value = "empty"
+
+    def use(self):
+        return self.new_value
+
+
+
+
 '''''
     def update_variable(self,local,variable,value):
         if local:
@@ -61,9 +65,8 @@ Character_Test = Character("Character_test", [255, 90, 60],
                             (w * 660, h * 325), (w * 660, h * 400),
                             (w * 640, h * 400), (w * 640, h * 325),
                             ],
-                           ["Answer(True, Hello this is a first test message, None, 0)",
-                            "Answer(True, Hello this is a Second test message, None, 1",
-                            ]
+                           [Answer("Hurt him"), Answer("Punch"),
+                            Answer("Kiss"), Answer("Slapfsfsfsfsfs")]
                            )
 
 

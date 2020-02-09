@@ -143,21 +143,44 @@ def draw_shape_ui():
 
     location.Character_Test.draw_soul()
     display_text(location.Character_Test.name, 480 * ratio_height, 44, (255, 255, 255))
-    draw_right_context(5)
+    draw_right_context(location.Character_Test.dialogues)
 
 
-def draw_right_context(position):
-    pygame.draw.rect(win, (108, 68, 158), (980, 150 + position * 80, 300, 60))
-    pygame.draw.ellipse(win, (108, 68, 158), [950, 150 + position * 80, 60, 60], 0)
+def draw_right_context(dialogues):
+    # Right UI with the buttons for talking
+    lenght = len(dialogues)
+    i = 0
+    while i < lenght:
+        # Graphic Part
+        pygame.draw.ellipse(win, (134, 134, 135), [950, 150 + i * 80, 60, 60], 0)
+        pygame.draw.rect(win, (162, 162, 166), (980, 150 + i * 80, 300, 60))
 
-    font = pygame.font.Font("font.ttf", 26)
-    text = font.render("test", True, (0, 0, 0))
-    textrect = text.get_rect()
-    textrect.center = (1020, 180)
-    win.blit(text, textrect)
+        # Text Part
+        font = pygame.font.Font("font.ttf", 20)
+        text = font.render(dialogues[i].text, True, (0, 0, 0))
+        textrect = text.get_rect()
+        textrect.center = (1020, 180 + i * 80)
+        win.blit(text, textrect)
 
-
-
+        i += 1
+'''
+  
+        pygame.draw.rect(win, (150, 150, 150), (500 * ratio_width, 570 * ratio_height,
+                                                280 * ratio_width, 70 * ratio_height))
+        pygame.draw.rect(win, (36, 36, 36), (500 * ratio_width, 570 * ratio_height,
+                                             280 * ratio_width, 70 * ratio_height), 3)
+        display_text(location.actual.return_context_name(), 600 * ratio_height, int(32 * ratio_height), (255, 255, 255))
+        if click[0] == 1:
+            if isinstance(context, location.Move):
+                draw_top_context()
+                return context.direction
+            elif isinstance(context, location.Interact):
+                draw_dialogue(context.message)
+            elif isinstance(context, location.Character):
+                istalking = True
+                draw_shape_ui()
+            else:
+            '''
 
 
 ''''
@@ -226,10 +249,6 @@ def button_action(context, locations):
             else:
                 print("UI Error:Button_action Class")
     return locations.name
-
-
-## def button_right():
-   ## while i < len(location.Character_Test.dialogues):
 
 
 ########################################################################################################################
